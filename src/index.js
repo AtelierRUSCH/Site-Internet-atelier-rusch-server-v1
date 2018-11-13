@@ -223,4 +223,4 @@ app.delete('/partenaires/:id', mustBeSignIn, (req, res, next) => {
     .catch(next)
 })
 
-app.listen(port, () => console.log(`Server started on port: ${port}!`))
+app.listen(port, () => console.log(`Server started on port ${port}!`))
