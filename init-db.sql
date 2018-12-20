@@ -17,7 +17,7 @@ CREATE TABLE articles (
   createdAt timestamp DEFAULT current_timestamp,
   hasStar varchar(64),
   tags varchar(512),
-  content varchar(10024),
+  content longtext,
   partners varchar(512),
   isDraft varchar(64),
   PRIMARY KEY (id)
