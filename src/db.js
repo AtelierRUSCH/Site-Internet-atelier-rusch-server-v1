@@ -26,9 +26,14 @@ const getArticles = async () => {
   const articles = await exec('SELECT * FROM articles ORDER BY date DESC')
 
   return articles.map(article => {
-    article.content = JSON.parse(article.content)
-    article.tags = JSON.parse(article.tags)
-    article.partners = JSON.parse(article.partners)
+    try {
+      article.content = JSON.parse(article.content)
+      article.tags = JSON.parse(article.tags)
+      article.partners = JSON.parse(article.partners)
+    } catch (err) {
+      console.error('Unable to parse')
+      console.log(article)
+    }
     return article
   })
 }
