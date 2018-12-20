@@ -6,6 +6,10 @@ const pool = mysql.createPool(`${url}?waitForConnections=true&connectionLimit=10
 
 // Helpers
 
+pool
+  .then(() => console.log('Database connected successfully'))
+  .catch(err => console.log('failed to connect to the database', err))
+
 const first = async q => (await q)[0]
 const exec = (query, params) => {
   // console.log('SQL - ', { query, params })
