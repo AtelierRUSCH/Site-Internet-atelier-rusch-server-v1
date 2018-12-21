@@ -6,9 +6,13 @@ const pool = mysql.createPool(`${url}?waitForConnections=true&connectionLimit=10
 
 // Helpers
 
-pool
-  .then(() => console.log('Database connected successfully'))
-  .catch(err => console.log('failed to connect to the database', err))
+pool.execute('select * from user')
+  .then(console.log)
+  .catch(console.error)
+
+// pool
+//   .then(() => console.log('Database connected successfully'))
+//   .catch(err => console.log('failed to connect to the database', err))
 
 const first = async q => (await q)[0]
 const exec = (query, params) => {
@@ -30,13 +34,14 @@ const getArticles = async () => {
   const articles = await exec('SELECT * FROM articles ORDER BY date DESC')
 
   return articles.map(article => {
+    article.tags = JSON.parse(article.tags)
+    article.partners = JSON.parse(article.partners)
     try {
       article.content = JSON.parse(article.content)
-      article.tags = JSON.parse(article.tags)
-      article.partners = JSON.parse(article.partners)
     } catch (err) {
+      article.content = []
       console.error('Unable to parse')
-      console.log(article)
+      console.log(article.content)
     }
     return article
   })
