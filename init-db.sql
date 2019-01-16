@@ -16,6 +16,7 @@ CREATE TABLE articles (
   projectLink varchar(256),
   createdAt timestamp DEFAULT current_timestamp,
   hasStar varchar(64),
+  hasImage varchar(64),
   tags varchar(512),
   content longtext,
   partners varchar(512),
@@ -61,7 +62,7 @@ CREATE TABLE user (
 ) ENGINE=INNODB;
 
 INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
-  VALUES ("Michael Schnell", 
+  VALUES ("Michael Schnell",
     "http://static8.viadeo-static.com/sH9_QA8U0zqTScn2_FGcUaayUZI=/300x300/member/002254gb4lf7we29%3Fts%3D1457531105000",
     "Designer, expert en co-design et conception de projet",
     "Convaincu que les approches fondées sur l’expérience de l’utilisateur et sur l’innovation sociale ont des effets positifs pour les collectivités publiques, Michael fonde l’Atelier Rusch et codirige les activités de conseil pour la co-conception de projets pour le privé et les collectivités.",
@@ -70,7 +71,7 @@ INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
   );
 
 INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
-  VALUES ("Marie Demée", 
+  VALUES ("Marie Demée",
     "http://atelier-rusch.com/wp-content/uploads/2015/12/marie-Carr%C3%A9.jpg",
     "Urbaniste, experte en design appliqué aux territoires",
     "Dévouée aux questions de développement durable des territoires et au développement des processus de participation, elle est co-fondatrice de l’Atelier Rusch et accompagne les collectivités et entreprises dans la co-construction de projets avec les outils et méthodes issus du design.",
@@ -79,7 +80,7 @@ INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
   );
 
 INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
-  VALUES ("Leo Morales", 
+  VALUES ("Leo Morales",
     "https://media.licdn.com/dms/image/C5103AQH_QmKpdf7Q_g/profile-displayphoto-shrink_800_800/0?e=1537401600&v=beta&t=oQchYXuCfp0iqg--EnbuNBZn7K-BmhAkmAKFVVKx1wI",
     "Designer, spécialisé en innovation sociale",
     "Animé par l’idée que le design et ses méthodologies basées sur l’immersion et l’empathie sont des outils capables d’améliorer notre quotidien, Leo rejoint l’Atelier Rusch en mars 2018 pour accompagner la coconception de démarches innovantes.",
@@ -88,7 +89,7 @@ INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
   );
 
 INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
-  VALUES ("Aurore Guilbert", 
+  VALUES ("Aurore Guilbert",
     "https://media-exp2.licdn.com/mpr/mpr/shrinknp_200_200/AAIAAQDGAAAAAQAAAAAAAA2WAAAAJDljMDFhMDliLTNmY2UtNDNlNy1hMTc3LWU3ZWM2MTdhOTJmMw.jpg",
     "Experte en management de l’innovation sociale et participation",
     "Diplômée de Sciences Po Lille en management de l’innovation sociale, Aurore souhaite mettre son énergie et ses compétences au service de l’impact social des organisations.",
@@ -97,29 +98,29 @@ INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
   );
 
 INSERT INTO filters (section, filterTag)
-  VALUES ("lab", 
+  VALUES ("lab",
   	"Articles");
 
 INSERT INTO filters (section, filterTag)
-  VALUES ("lab", 
+  VALUES ("lab",
   	"Expérimentations");
 
 INSERT INTO filters (section, filterTag)
-  VALUES ("lab", 
+  VALUES ("lab",
   	"Interventions");
 
 INSERT INTO filters (section, filterTag)
-  VALUES ("projets", 
+  VALUES ("projets",
   	"Mobilité");
 
 INSERT INTO filters (section, filterTag)
-  VALUES ("projets", 
+  VALUES ("projets",
   	"Aménagements");
 
 INSERT INTO filters (section, filterTag)
-  VALUES ("projets", 
+  VALUES ("projets",
   	"Urbanisme");
 
 INSERT INTO filters (section, filterTag)
-  VALUES ("projets", 
+  VALUES ("projets",
   	"Services");
