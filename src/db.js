@@ -20,7 +20,7 @@ pool.execute('select * from user')
 
 const first = async q => (await q)[0]
 const exec = (query, params) => {
-  // console.log('SQL - ', { query, params })
+  console.log('SQL - ', { query, params })
   return first(pool.execute(query, params))
 }
 
@@ -118,6 +118,25 @@ const updateMember = member => exec(`
 
 const deleteMember = id => exec(`DELETE FROM equipe WHERE id=?`, [ id ])
 
+// Équipe thanks
+
+const readThanks = () => exec('SELECT * FROM thanks ORDER BY createdAt DESC')
+readThanks.byId = id => exec1(`SELECT * FROM thanks ORDER BY createdAt DESC WHERE id=?`, [ id ])
+
+const getThanks = () => exec('SELECT * FROM thanks ORDER BY createdAt DESC')
+
+const writeThank = thank => exec(`
+  INSERT INTO thanks (name, url)
+  VALUES (?, ?)`, [ thank.name, thank.url ])
+
+const updateThank = thank => exec(`
+  UPDATE thanks
+  SET name=?, url=?
+  WHERE id=?`, [ thank.name, thank.url, thank.id ])
+
+
+const deleteThank = id => exec(`DELETE FROM thanks WHERE id=?`, [ id ])
+
 // Partenaires
 
 const readPartenaires = () => exec('SELECT * FROM partenaires ORDER BY createdAt DESC')
@@ -152,6 +171,11 @@ module.exports = {
   writeMember,
   updateMember,
   deleteMember,
+  readThanks,
+  getThanks,
+  writeThank,
+  updateThank,
+  deleteThank,
   readPartenaires,
   getPartenaires,
   writePartenaire,
