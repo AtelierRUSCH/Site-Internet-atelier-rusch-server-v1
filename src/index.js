@@ -186,6 +186,46 @@ app.delete('/equipe/:id', mustBeSignIn, (req, res, next) => {
 })
 
 // ROUTES
+// thanks
+
+app.get('/thanks/:id', (req, res, next) => {
+  db.readThanks.byId(req.params.id)
+    .then(thank => res.json(thank))
+    .catch(next)
+})
+
+app.get('/thanks', (request, response, next) => {
+  db.getThanks()
+    .then(thanks => response.json(thanks))
+})
+
+app.post('/thanks', mustBeSignIn, (request, response, next) => {
+  const thank = request.body
+
+  db.writeThank(thank)
+    .then(() => response.json('ok'))
+    .catch(next)
+})
+
+app.put('/thanks/:id', mustBeSignIn, (request, response, next) => {
+  const thank = request.body
+  thank.id = request.params.id
+
+  console.log(thank)
+
+  db.updateThank(thank)
+    .then(() => response.json('ok'))
+    .catch(next)
+})
+
+app.delete('/thanks/:id', mustBeSignIn, (req, res, next) => {
+  const thankId = req.params.id
+  db.deleteThank(thankId)
+    .then(() => res.json('ok'))
+    .catch(next)
+})
+
+// ROUTES
 // partenaires
 
 app.get('/partenaires/:id', (req, res, next) => {
