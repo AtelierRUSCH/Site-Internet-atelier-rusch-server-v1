@@ -2,11 +2,14 @@ const mysql = require('mysql2/promise')
 
 const url = process.env.DATABASE_URL || 'mysql://root@localhost/rusch'
 console.log(`MySQL connecting to: ${url}`)
-const pool = mysql.createPool(`${url}?waitForConnections=true&connectionLimit=10&queueLimit=0`)
+const pool = mysql.createPool(
+  `${url}?waitForConnections=true&connectionLimit=10&queueLimit=0`
+)
 
 // Helpers
 
-pool.execute('select * from user')
+pool
+  .execute('select * from user')
   .then(console.log)
   .catch(console.error)
 
@@ -63,7 +66,10 @@ const readArticles = async () => {
 }
 
 readArticles.byId = async id => {
-  const article = await exec1(`SELECT * FROM articles ORDER BY date DESC WHERE id=?`, [ id ])
+  const article = await exec1(
+    `SELECT * FROM articles ORDER BY date DESC WHERE id=?`,
+    [id]
+  )
 
   article.content = JSON.parse(article.content)
   article.tags = JSON.parse(article.tags)
@@ -71,89 +77,194 @@ readArticles.byId = async id => {
   return article
 }
 
-const writeArticle = article => exec(`
+const writeArticle = article =>
+  exec(
+    `
   INSERT INTO articles (section, title, date, client, place, type, headerImage, shortDescription, projectLink, hasStar, hasImage, tags, content, partners, isDraft)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`, [ article.section, article.title, article.date, article.client, article.place, article.type, article.headerImage, article.shortDescription, article.projectLink, article.hasStar, article.hasImage, JSON.stringify(article.tags), JSON.stringify(article.content), JSON.stringify(article.partners), article.isDraft ], console.log(article))
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [
+      article.section,
+      article.title,
+      article.date,
+      article.client,
+      article.place,
+      article.type,
+      article.headerImage,
+      article.shortDescription,
+      article.projectLink,
+      article.hasStar,
+      article.hasImage,
+      JSON.stringify(article.tags),
+      JSON.stringify(article.content),
+      JSON.stringify(article.partners),
+      article.isDraft
+    ],
+    console.log(article)
+  )
 
-const updateArticle = article => exec(`
+const updateArticle = article =>
+  exec(
+    `
   UPDATE articles
   SET section=?, title=?, date=?, client=?, place=?, type=?, headerImage=?, shortDescription=?, projectLink=?, hasStar=?, hasImage=?, tags=?, content=?, partners=?, isDraft=?
-  WHERE id=?`, [ article.section, article.title, article.date, article.client, article.place, article.type, article.headerImage, article.shortDescription, article.projectLink, article.hasStar, article.hasImage, JSON.stringify(article.tags), JSON.stringify(article.content), JSON.stringify(article.partners), article.isDraft, article.id ])
+  WHERE id=?`,
+    [
+      article.section,
+      article.title,
+      article.date,
+      article.client,
+      article.place,
+      article.type,
+      article.headerImage,
+      article.shortDescription,
+      article.projectLink,
+      article.hasStar,
+      article.hasImage,
+      JSON.stringify(article.tags),
+      JSON.stringify(article.content),
+      JSON.stringify(article.partners),
+      article.isDraft,
+      article.id
+    ]
+  )
 
-const deleteArticle = id => exec(`DELETE FROM articles WHERE id=?`, [ id ])
+const deleteArticle = id => exec(`DELETE FROM articles WHERE id=?`, [id])
 
 // Filters
 
 const readFilters = () => exec('SELECT * FROM filters ORDER BY createdAt DESC')
-readFilters.byId = id => exec1(`SELECT * FROM filters ORDER BY createdAt DESC WHERE id=?`, [ id ])
+readFilters.byId = id =>
+  exec1(`SELECT * FROM filters ORDER BY createdAt DESC WHERE id=?`, [id])
 
 const getFilters = () => exec('SELECT * FROM filters ORDER BY createdAt DESC')
 
-const writeFilter = filter => exec(`
+const writeFilter = filter =>
+  exec(
+    `
   INSERT INTO filters (section, filterTag)
-  VALUES (?, ?)`, [ filter.section, filter.filterTag ])
+  VALUES (?, ?)`,
+    [filter.section, filter.filterTag]
+  )
 
-const updateFilter = filter => exec(`
+const updateFilter = filter =>
+  exec(
+    `
   UPDATE filters
   SET section=?, filterTag=?
-  WHERE id=?`, [ filter.section, filter.filterTag, filter.id ])
+  WHERE id=?`,
+    [filter.section, filter.filterTag, filter.id]
+  )
 
-const deleteFilter = id => exec(`DELETE FROM filters WHERE id=?`, [ id ])
+const deleteFilter = id => exec(`DELETE FROM filters WHERE id=?`, [id])
 
 // Équipe members
 
 const readMembers = () => exec('SELECT * FROM equipe ORDER BY createdAt DESC')
-readMembers.byId = id => exec1(`SELECT * FROM equipe ORDER BY createdAt DESC WHERE id=?`, [ id ])
+readMembers.byId = id =>
+  exec1(`SELECT * FROM equipe ORDER BY createdAt DESC WHERE id=?`, [id])
 
 const getMembers = () => exec('SELECT * FROM equipe ORDER BY createdAt DESC')
 
-const writeMember = member => exec(`
+const writeMember = member =>
+  exec(
+    `
   INSERT INTO equipe (name, image, position, description, carreer, linkedIn)
-  VALUES (?, ?, ?, ?, ?, ?)`, [ member.name, member.image, member.position, member.description, member.carreer, member.linkedIn ])
+  VALUES (?, ?, ?, ?, ?, ?)`,
+    [
+      member.name,
+      member.image,
+      member.position,
+      member.description,
+      member.carreer,
+      member.linkedIn
+    ]
+  )
 
-const updateMember = member => exec(`
+const updateMember = member =>
+  exec(
+    `
   UPDATE equipe
   SET name=?, image=?, position=?, description=?, carreer=?, linkedIn=?
-  WHERE id=?`, [ member.name, member.image, member.position, member.description, member.carreer, member.linkedIn, member.id ])
+  WHERE id=?`,
+    [
+      member.name,
+      member.image,
+      member.position,
+      member.description,
+      member.carreer,
+      member.linkedIn,
+      member.id
+    ]
+  )
 
-const deleteMember = id => exec(`DELETE FROM equipe WHERE id=?`, [ id ])
+const deleteMember = id => exec(`DELETE FROM equipe WHERE id=?`, [id])
 
 // Équipe thanks
 
 const readThanks = () => exec('SELECT * FROM thanks ORDER BY createdAt DESC')
-readThanks.byId = id => exec1(`SELECT * FROM thanks ORDER BY createdAt DESC WHERE id=?`, [ id ])
+readThanks.byId = id =>
+  exec1(`SELECT * FROM thanks ORDER BY createdAt DESC WHERE id=?`, [id])
 
 const getThanks = () => exec('SELECT * FROM thanks ORDER BY createdAt DESC')
 
-const writeThank = thank => exec(`
+const writeThank = thank =>
+  exec(
+    `
   INSERT INTO thanks (name, url)
-  VALUES (?, ?)`, [ thank.name, thank.url ])
+  VALUES (?, ?)`,
+    [thank.name, thank.url]
+  )
 
-const updateThank = thank => exec(`
+const updateThank = thank =>
+  exec(
+    `
   UPDATE thanks
   SET name=?, url=?
-  WHERE id=?`, [ thank.name, thank.url, thank.id ])
+  WHERE id=?`,
+    [thank.name, thank.url, thank.id]
+  )
 
-
-const deleteThank = id => exec(`DELETE FROM thanks WHERE id=?`, [ id ])
+const deleteThank = id => exec(`DELETE FROM thanks WHERE id=?`, [id])
 
 // Partenaires
 
-const readPartenaires = () => exec('SELECT * FROM partenaires ORDER BY createdAt DESC')
-readPartenaires.byId = id => exec1(`SELECT * FROM partenaires ORDER BY createdAt DESC WHERE id=?`, [ id ])
+const readPartenaires = () =>
+  exec('SELECT * FROM partenaires ORDER BY createdAt DESC')
+readPartenaires.byId = id =>
+  exec1(`SELECT * FROM partenaires ORDER BY createdAt DESC WHERE id=?`, [id])
 
-const getPartenaires = () => exec('SELECT * FROM partenaires ORDER BY createdAt DESC')
+const getPartenaires = () =>
+  exec('SELECT * FROM partenaires ORDER BY createdAt DESC')
 
-const writePartenaire = partenaire => exec(`
-  INSERT INTO partenaires (name, shortDescription, image)
-  VALUES (?, ?, ?)`, [ partenaire.name, partenaire.shortDescription, partenaire.image ])
+const writePartenaire = partenaire =>
+  exec(
+    `
+  INSERT INTO partenaires (name, shortDescription, image, url)
+  VALUES (?, ?, ?, ?)`,
+    [
+      partenaire.name,
+      partenaire.shortDescription,
+      partenaire.image,
+      partenaire.url
+    ]
+  )
 
-const updatePartenaire = partenaire => exec(`
+const updatePartenaire = partenaire =>
+  exec(
+    `
   UPDATE partenaires
-  SET name=?, shortDescription=?, image=?
-  WHERE id=?`, [ partenaire.name, partenaire.shortDescription, partenaire.image, partenaire.id ])
+  SET name=?, shortDescription=?, image=?, url=?
+  WHERE id=?`,
+    [
+      partenaire.name,
+      partenaire.shortDescription,
+      partenaire.image,
+      partenaire.url,
+      partenaire.id
+    ]
+  )
 
-const deletePartenaire = id => exec(`DELETE FROM partenaires WHERE id=?`, [ id ])
+const deletePartenaire = id => exec(`DELETE FROM partenaires WHERE id=?`, [id])
 
 module.exports = {
   readArticles,
