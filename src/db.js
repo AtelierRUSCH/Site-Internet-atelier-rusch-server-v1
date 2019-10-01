@@ -80,8 +80,8 @@ readArticles.byId = async id => {
 const writeArticle = article =>
   exec(
     `
-  INSERT INTO articles (section, title, date, client, place, type, headerImage, shortDescription, projectLink, hasStar, hasImage, tags, content, partners, isDraft)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  INSERT INTO articles (section, title, date, client, place, type, headerImage, shortDescription, projectLink, hasStar, hasImage, tags, content, partners, isDraft, suggestion)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       article.section,
       article.title,
@@ -97,7 +97,8 @@ const writeArticle = article =>
       JSON.stringify(article.tags),
       JSON.stringify(article.content),
       JSON.stringify(article.partners),
-      article.isDraft
+      article.isDraft,
+      article.suggestion
     ],
     console.log(article)
   )
@@ -106,7 +107,7 @@ const updateArticle = article =>
   exec(
     `
   UPDATE articles
-  SET section=?, title=?, date=?, client=?, place=?, type=?, headerImage=?, shortDescription=?, projectLink=?, hasStar=?, hasImage=?, tags=?, content=?, partners=?, isDraft=?
+  SET section=?, title=?, date=?, client=?, place=?, type=?, headerImage=?, shortDescription=?, projectLink=?, hasStar=?, hasImage=?, tags=?, content=?, partners=?, isDraft=?, suggestion=?
   WHERE id=?`,
     [
       article.section,
@@ -124,6 +125,7 @@ const updateArticle = article =>
       JSON.stringify(article.content),
       JSON.stringify(article.partners),
       article.isDraft,
+      article.suggestion,
       article.id
     ]
   )
