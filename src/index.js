@@ -226,6 +226,42 @@ app.delete('/thanks/:id', mustBeSignIn, (req, res, next) => {
 })
 
 // ROUTES
+// contact
+
+app.get('/contact', (request, response, next) => {
+  db.getContact().then(contact => {
+    console.log(contact)
+    response.json(contact[0])
+  })
+})
+
+// app.post('/contact', mustBeSignIn, (request, response, next) => {
+//   const thank = request.body
+
+//   db.writeThank(thank)
+//     .then(() => response.json('ok'))
+//     .catch(next)
+// })
+
+// app.put('/contact/:id', mustBeSignIn, (request, response, next) => {
+//   const thank = request.body
+//   thank.id = request.params.id
+
+//   console.log(thank)
+
+//   db.updateThank(thank)
+//     .then(() => response.json('ok'))
+//     .catch(next)
+// })
+
+// app.delete('/contact/:id', mustBeSignIn, (req, res, next) => {
+//   const thankId = req.params.id
+//   db.deleteThank(thankId)
+//     .then(() => res.json('ok'))
+//     .catch(next)
+// })
+
+// ROUTES
 // partenaires
 
 app.get('/partenaires/:id', (req, res, next) => {
