@@ -11,7 +11,10 @@ const path = require('path')
 const session = require('express-session')
 const sessionFileStore = require('session-file-store')
 const FileStore = sessionFileStore(session)
-const secret = process.env.SESSION_SECRET || console.log('missing SESSION_SECRET!') || 'je suis un beau secret'
+const secret =
+  process.env.SESSION_SECRET ||
+  console.log('missing SESSION_SECRET!') ||
+  'je suis un beau secret'
 // AUTHENTIFICATION function
 const mustBeSignIn = (request, response, next) => {
   console.log('session:', request.session)
@@ -25,7 +28,10 @@ app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', request.headers.origin)
   response.header('Access-Control-Allow-Credentials', 'true') // important
   response.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE') // important
-  response.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
+  response.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept',
+  )
   next()
 })
 
@@ -33,13 +39,15 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 
 // AUTHENTIFICATION Setup session handler
-app.use(session({
-  secret,
-  cookie: {maxAge: 365 * 24 * 60 * 60 * 1000},
-  saveUninitialized: false,
-  resave: true,
-  store: new FileStore({ path: path.join(__dirname, '../sessions'), secret })
-}))
+app.use(
+  session({
+    secret,
+    cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 },
+    saveUninitialized: false,
+    resave: true,
+    store: new FileStore({ path: path.join(__dirname, '../sessions'), secret }),
+  }),
+)
 
 // AUTHENTIFICATION route de sign in
 
@@ -75,14 +83,14 @@ app.get('/sign-out', (req, res, next) => {
 // Articles
 
 app.get('/articles/:id', (req, res, next) => {
-  db.readArticles.byId(req.params.id)
+  db.readArticles
+    .byId(req.params.id)
     .then(article => res.json(article))
     .catch(next)
 })
 
 app.get('/articles', (request, response, next) => {
-  db.getArticles()
-    .then(articles => response.json(articles))
+  db.getArticles().then(articles => response.json(articles))
 })
 
 app.post('/articles', mustBeSignIn, (request, response, next) => {
@@ -113,14 +121,14 @@ app.delete('/articles/:id', mustBeSignIn, (req, res, next) => {
 // filters
 
 app.get('/filters/:id', (req, res, next) => {
-  db.readFilters.byId(req.params.id)
+  db.readFilters
+    .byId(req.params.id)
     .then(filter => res.json(filter))
     .catch(next)
 })
 
 app.get('/filters', (request, response, next) => {
-  db.getFilters()
-    .then(filters => response.json(filters))
+  db.getFilters().then(filters => response.json(filters))
 })
 
 app.post('/filters', mustBeSignIn, (request, response, next) => {
@@ -151,14 +159,14 @@ app.delete('/filters/:id', mustBeSignIn, (req, res, next) => {
 // equipe
 
 app.get('/equipe/:id', (req, res, next) => {
-  db.readMembers.byId(req.params.id)
+  db.readMembers
+    .byId(req.params.id)
     .then(member => res.json(member))
     .catch(next)
 })
 
 app.get('/equipe', (request, response, next) => {
-  db.getMembers()
-    .then(members => response.json(members))
+  db.getMembers().then(members => response.json(members))
 })
 
 app.post('/equipe', mustBeSignIn, (request, response, next) => {
@@ -189,14 +197,14 @@ app.delete('/equipe/:id', mustBeSignIn, (req, res, next) => {
 // thanks
 
 app.get('/thanks/:id', (req, res, next) => {
-  db.readThanks.byId(req.params.id)
+  db.readThanks
+    .byId(req.params.id)
     .then(thank => res.json(thank))
     .catch(next)
 })
 
 app.get('/thanks', (request, response, next) => {
-  db.getThanks()
-    .then(thanks => response.json(thanks))
+  db.getThanks().then(thanks => response.json(thanks))
 })
 
 app.post('/thanks', mustBeSignIn, (request, response, next) => {
@@ -265,14 +273,14 @@ app.get('/contact', (request, response, next) => {
 // partenaires
 
 app.get('/partenaires/:id', (req, res, next) => {
-  db.readPartenaires.byId(req.params.id)
+  db.readPartenaires
+    .byId(req.params.id)
     .then(partenaire => res.json(partenaire))
     .catch(next)
 })
 
 app.get('/partenaires', (request, response, next) => {
-  db.getPartenaires()
-    .then(partenaires => response.json(partenaires))
+  db.getPartenaires().then(partenaires => response.json(partenaires))
 })
 
 app.post('/partenaires', mustBeSignIn, (request, response, next) => {
