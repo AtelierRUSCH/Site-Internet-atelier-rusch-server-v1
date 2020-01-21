@@ -230,28 +230,24 @@ const deleteThank = id => exec(`DELETE FROM thanks WHERE id=?`, [id])
 
 // Contact
 
-// const readContact = () => exec('SELECT * FROM contact')
-
 const getContact = () => exec('SELECT * FROM contact')
 
-// const writeContact = contact =>
-//   exec(
-//     `
-//   INSERT INTO contact (name, url)
-//   VALUES (?, ?)`,
-//     [contact.name, contact.url],
-//   )
-
-// const updateContact = contact =>
-//   exec(
-//     `
-//   UPDATE contact
-//   SET name=?, url=?
-//   WHERE id=?`,
-//     [contact.name, contact.url, contact.id],
-//   )
-
-// const deleteContact = id => exec(`DELETE FROM contact WHERE id=?`, [id])
+const updateContact = contact =>
+  exec(
+    `
+  UPDATE contact
+  SET address=?, additionalInfo=?, mail=?, phone=?, facebook=?, instagram=?, linkedin=?
+  WHERE id=1`,
+    [
+      contact.address,
+      contact.additionalInfo,
+      contact.mail,
+      contact.phone,
+      contact.facebook,
+      contact.instagram,
+      contact.linkedin,
+    ],
+  )
 
 // Partenaires
 
@@ -321,4 +317,5 @@ module.exports = {
   deletePartenaire,
   getUser,
   getContact,
+  updateContact,
 }
