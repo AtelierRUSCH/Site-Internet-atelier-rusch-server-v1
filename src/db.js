@@ -3,7 +3,7 @@ const mysql = require('mysql2/promise')
 const url = process.env.DATABASE_URL || 'mysql://root@localhost/rusch'
 console.log(`MySQL connecting to: ${url}`)
 const pool = mysql.createPool(
-  `${url}?waitForConnections=true&connectionLimit=10&queueLimit=0`
+  `${url}?waitForConnections=true&connectionLimit=10&queueLimit=0`,
 )
 
 // Helpers
@@ -68,7 +68,7 @@ const readArticles = async () => {
 readArticles.byId = async id => {
   const article = await exec1(
     `SELECT * FROM articles ORDER BY date DESC WHERE id=?`,
-    [id]
+    [id],
   )
 
   article.content = JSON.parse(article.content)
@@ -98,9 +98,9 @@ const writeArticle = article =>
       JSON.stringify(article.content),
       JSON.stringify(article.partners),
       article.isDraft,
-      article.suggestion
+      article.suggestion,
     ],
-    console.log(article)
+    console.log(article),
   )
 
 const updateArticle = article =>
@@ -126,8 +126,8 @@ const updateArticle = article =>
       JSON.stringify(article.partners),
       article.isDraft,
       article.suggestion,
-      article.id
-    ]
+      article.id,
+    ],
   )
 
 const deleteArticle = id => exec(`DELETE FROM articles WHERE id=?`, [id])
@@ -145,7 +145,7 @@ const writeFilter = filter =>
     `
   INSERT INTO filters (section, filterTag)
   VALUES (?, ?)`,
-    [filter.section, filter.filterTag]
+    [filter.section, filter.filterTag],
   )
 
 const updateFilter = filter =>
@@ -154,7 +154,7 @@ const updateFilter = filter =>
   UPDATE filters
   SET section=?, filterTag=?
   WHERE id=?`,
-    [filter.section, filter.filterTag, filter.id]
+    [filter.section, filter.filterTag, filter.id],
   )
 
 const deleteFilter = id => exec(`DELETE FROM filters WHERE id=?`, [id])
@@ -178,8 +178,8 @@ const writeMember = member =>
       member.position,
       member.description,
       member.carreer,
-      member.linkedIn
-    ]
+      member.linkedIn,
+    ],
   )
 
 const updateMember = member =>
@@ -195,8 +195,8 @@ const updateMember = member =>
       member.description,
       member.carreer,
       member.linkedIn,
-      member.id
-    ]
+      member.id,
+    ],
   )
 
 const deleteMember = id => exec(`DELETE FROM equipe WHERE id=?`, [id])
@@ -214,7 +214,7 @@ const writeThank = thank =>
     `
   INSERT INTO thanks (name, url)
   VALUES (?, ?)`,
-    [thank.name, thank.url]
+    [thank.name, thank.url],
   )
 
 const updateThank = thank =>
@@ -223,7 +223,7 @@ const updateThank = thank =>
   UPDATE thanks
   SET name=?, url=?
   WHERE id=?`,
-    [thank.name, thank.url, thank.id]
+    [thank.name, thank.url, thank.id],
   )
 
 const deleteThank = id => exec(`DELETE FROM thanks WHERE id=?`, [id])
@@ -272,8 +272,8 @@ const writePartenaire = partenaire =>
       partenaire.name,
       partenaire.shortDescription,
       partenaire.image,
-      partenaire.url
-    ]
+      partenaire.url,
+    ],
   )
 
 const updatePartenaire = partenaire =>
@@ -287,8 +287,8 @@ const updatePartenaire = partenaire =>
       partenaire.shortDescription,
       partenaire.image,
       partenaire.url,
-      partenaire.id
-    ]
+      partenaire.id,
+    ],
   )
 
 const deletePartenaire = id => exec(`DELETE FROM partenaires WHERE id=?`, [id])
