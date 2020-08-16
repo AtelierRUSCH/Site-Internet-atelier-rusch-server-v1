@@ -295,7 +295,7 @@ app.delete('/partenaires/:id', mustBeSignIn, (req, res, next) => {
     .catch(next)
 })
 
-app.use('*', (req, res) => {
+app.get('*', (req, res) => {
   res.sendFile(`${publicPath}/index.html`)
 })
 
