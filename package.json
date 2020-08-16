@@ -6,6 +6,7 @@
     "lint": "standard | snazzy"
   },
   "dependencies": {
+    "connect-history-api-fallback": "^1.6.0",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "mysql2": "^1.5.3",

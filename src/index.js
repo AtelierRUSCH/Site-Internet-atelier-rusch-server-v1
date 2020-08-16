@@ -1,5 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
+const history = require('connect-history-api-fallback')
 
 const db = require('./db')
 const port = process.env.PORT || 5000
@@ -56,8 +57,8 @@ app.post('/sign-in', (request, response, next) => {
   const password = request.body.password
 
   db.getUser()
-    .then(users => {
-      const userFound = users.find(user => user.username === username)
+    .then((users) => {
+      const userFound = users.find((user) => user.username === username)
 
       if (!userFound) {
         throw Error('User not found')
@@ -85,12 +86,12 @@ app.get('/sign-out', (req, res, next) => {
 app.get('/articles/:id', (req, res, next) => {
   db.readArticles
     .byId(req.params.id)
-    .then(article => res.json(article))
+    .then((article) => res.json(article))
     .catch(next)
 })
 
 app.get('/articles', (request, response, next) => {
-  db.getArticles().then(articles => response.json(articles))
+  db.getArticles().then((articles) => response.json(articles))
 })
 
 app.post('/articles', mustBeSignIn, (request, response, next) => {
@@ -123,12 +124,12 @@ app.delete('/articles/:id', mustBeSignIn, (req, res, next) => {
 app.get('/filters/:id', (req, res, next) => {
   db.readFilters
     .byId(req.params.id)
-    .then(filter => res.json(filter))
+    .then((filter) => res.json(filter))
     .catch(next)
 })
 
 app.get('/filters', (request, response, next) => {
-  db.getFilters().then(filters => response.json(filters))
+  db.getFilters().then((filters) => response.json(filters))
 })
 
 app.post('/filters', mustBeSignIn, (request, response, next) => {
@@ -161,12 +162,12 @@ app.delete('/filters/:id', mustBeSignIn, (req, res, next) => {
 app.get('/equipe/:id', (req, res, next) => {
   db.readMembers
     .byId(req.params.id)
-    .then(member => res.json(member))
+    .then((member) => res.json(member))
     .catch(next)
 })
 
 app.get('/equipe', (request, response, next) => {
-  db.getMembers().then(members => response.json(members))
+  db.getMembers().then((members) => response.json(members))
 })
 
 app.post('/equipe', mustBeSignIn, (request, response, next) => {
@@ -199,12 +200,12 @@ app.delete('/equipe/:id', mustBeSignIn, (req, res, next) => {
 app.get('/thanks/:id', (req, res, next) => {
   db.readThanks
     .byId(req.params.id)
-    .then(thank => res.json(thank))
+    .then((thank) => res.json(thank))
     .catch(next)
 })
 
 app.get('/thanks', (request, response, next) => {
-  db.getThanks().then(thanks => response.json(thanks))
+  db.getThanks().then((thanks) => response.json(thanks))
 })
 
 app.post('/thanks', mustBeSignIn, (request, response, next) => {
@@ -237,7 +238,7 @@ app.delete('/thanks/:id', mustBeSignIn, (req, res, next) => {
 // contact
 
 app.get('/contact', (request, response, next) => {
-  db.getContact().then(contact => {
+  db.getContact().then((contact) => {
     console.log(contact)
     response.json(contact[0])
   })
@@ -256,12 +257,12 @@ app.put('/contact', mustBeSignIn, (request, response, next) => {
 app.get('/partenaires/:id', (req, res, next) => {
   db.readPartenaires
     .byId(req.params.id)
-    .then(partenaire => res.json(partenaire))
+    .then((partenaire) => res.json(partenaire))
     .catch(next)
 })
 
 app.get('/partenaires', (request, response, next) => {
-  db.getPartenaires().then(partenaires => response.json(partenaires))
+  db.getPartenaires().then((partenaires) => response.json(partenaires))
 })
 
 app.post('/partenaires', mustBeSignIn, (request, response, next) => {
@@ -287,5 +288,7 @@ app.delete('/partenaires/:id', mustBeSignIn, (req, res, next) => {
     .then(() => res.json('ok'))
     .catch(next)
 })
+
+app.use(history())
 
 app.listen(port, () => console.log(`Server started on port ${port}!`))
