@@ -50,6 +50,12 @@ app.use(
   }),
 )
 
+const publicPath = path.join(__dirname, '../../client/public')
+
+app.use('/static', express.static(publicPath))
+
+// app.use(history())
+
 // AUTHENTIFICATION route de sign in
 
 app.post('/sign-in', (request, response, next) => {
@@ -289,6 +295,8 @@ app.delete('/partenaires/:id', mustBeSignIn, (req, res, next) => {
     .catch(next)
 })
 
-app.use(history())
+app.use('*', (req, res) => {
+  res.sendFile(`${publicPath}/index.html`)
+})
 
 app.listen(port, () => console.log(`Server started on port ${port}!`))
