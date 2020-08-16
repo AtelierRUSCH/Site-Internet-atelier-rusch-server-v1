@@ -77,17 +77,18 @@ readArticles.byId = async id => {
   return article
 }
 
-const writeArticle = article =>
+const writeArticle = (article) =>
   exec(
     `
-  INSERT INTO articles (section, title, date, client, place, type, headerImage, shortDescription, projectLink, hasStar, hasImage, tags, content, partners, isDraft, suggestion)
-  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  INSERT INTO articles (section, title, date, client, place, district, type, headerImage, shortDescription, projectLink, hasStar, hasImage, tags, content, partners, isDraft, suggestion)
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
       article.section,
       article.title,
       article.date,
       article.client,
       article.place,
+      article.district,
       article.type,
       article.headerImage,
       article.shortDescription,
@@ -103,11 +104,11 @@ const writeArticle = article =>
     console.log(article),
   )
 
-const updateArticle = article =>
+const updateArticle = (article) =>
   exec(
     `
   UPDATE articles
-  SET section=?, title=?, date=?, client=?, place=?, type=?, headerImage=?, shortDescription=?, projectLink=?, hasStar=?, hasImage=?, tags=?, content=?, partners=?, isDraft=?, suggestion=?
+  SET section=?, title=?, date=?, client=?, place=?, district=?, type=?, headerImage=?, shortDescription=?, projectLink=?, hasStar=?, hasImage=?, tags=?, content=?, partners=?, isDraft=?, suggestion=?
   WHERE id=?`,
     [
       article.section,
@@ -115,6 +116,7 @@ const updateArticle = article =>
       article.date,
       article.client,
       article.place,
+      article.district,
       article.type,
       article.headerImage,
       article.shortDescription,
