@@ -23,7 +23,7 @@ const mustBeSignIn = (request, response, next) => {
 }
 
 // MIDDLEWARES
-const publicPath = path.join(__dirname, '../../client/public')
+const publicPath = path.join(__dirname, '../../client/build')
 app.use(express.static(publicPath))
 
 app.use((request, response, next) => {
@@ -92,7 +92,9 @@ app.get('/articles/:id', (req, res, next) => {
 })
 
 app.get('/articles', (request, response, next) => {
-  db.getArticles().then((articles) => response.json(articles))
+  db.getArticles()
+    .then((articles) => response.json(articles))
+    .catch(next)
 })
 
 app.post('/articles', mustBeSignIn, (request, response, next) => {
@@ -130,7 +132,9 @@ app.get('/filters/:id', (req, res, next) => {
 })
 
 app.get('/filters', (request, response, next) => {
-  db.getFilters().then((filters) => response.json(filters))
+  db.getFilters()
+    .then((filters) => response.json(filters))
+    .catch(next)
 })
 
 app.post('/filters', mustBeSignIn, (request, response, next) => {
@@ -168,7 +172,9 @@ app.get('/equipe/:id', (req, res, next) => {
 })
 
 app.get('/equipe', (request, response, next) => {
-  db.getMembers().then((members) => response.json(members))
+  db.getMembers()
+    .then((members) => response.json(members))
+    .catch(next)
 })
 
 app.post('/equipe', mustBeSignIn, (request, response, next) => {
@@ -206,7 +212,9 @@ app.get('/thanks/:id', (req, res, next) => {
 })
 
 app.get('/thanks', (request, response, next) => {
-  db.getThanks().then((thanks) => response.json(thanks))
+  db.getThanks()
+    .then((thanks) => response.json(thanks))
+    .catch(next)
 })
 
 app.post('/thanks', mustBeSignIn, (request, response, next) => {
@@ -237,9 +245,11 @@ app.delete('/thanks/:id', mustBeSignIn, (req, res, next) => {
 // contact
 
 app.get('/contact', (request, response, next) => {
-  db.getContact().then((contact) => {
-    response.json(contact[0])
-  })
+  db.getContact()
+    .then((contact) => {
+      response.json(contact[0])
+    })
+    .catch(next)
 })
 
 app.put('/contact', mustBeSignIn, (request, response, next) => {
@@ -260,7 +270,9 @@ app.get('/partenaires/:id', (req, res, next) => {
 })
 
 app.get('/partenaires', (request, response, next) => {
-  db.getPartenaires().then((partenaires) => response.json(partenaires))
+  db.getPartenaires()
+    .then((partenaires) => response.json(partenaires))
+    .catch(next)
 })
 
 app.post('/partenaires', mustBeSignIn, (request, response, next) => {
