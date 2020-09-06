@@ -1,6 +1,5 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const history = require('connect-history-api-fallback')
 
 const db = require('./db')
 const port = process.env.PORT || 5000
@@ -24,6 +23,8 @@ const mustBeSignIn = (request, response, next) => {
 }
 
 // MIDDLEWARES
+const publicPath = path.join(__dirname, '../../client/public')
+app.use(express.static(publicPath))
 
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', request.headers.origin)
@@ -49,12 +50,6 @@ app.use(
     store: new FileStore({ path: path.join(__dirname, '../sessions'), secret }),
   }),
 )
-
-const publicPath = path.join(__dirname, '../../client/public')
-
-app.use('/static', express.static(publicPath))
-
-// app.use(history())
 
 // AUTHENTIFICATION route de sign in
 
@@ -226,8 +221,6 @@ app.put('/thanks/:id', mustBeSignIn, (request, response, next) => {
   const thank = request.body
   thank.id = request.params.id
 
-  console.log(thank)
-
   db.updateThank(thank)
     .then(() => response.json('ok'))
     .catch(next)
@@ -245,7 +238,6 @@ app.delete('/thanks/:id', mustBeSignIn, (req, res, next) => {
 
 app.get('/contact', (request, response, next) => {
   db.getContact().then((contact) => {
-    console.log(contact)
     response.json(contact[0])
   })
 })
@@ -295,7 +287,8 @@ app.delete('/partenaires/:id', mustBeSignIn, (req, res, next) => {
     .catch(next)
 })
 
-app.get('*', (req, res) => {
+app.use('/*', (req, res) => {
+  console.log('HERE', req.originalUrl)
   res.sendFile(`${publicPath}/index.html`)
 })
 
