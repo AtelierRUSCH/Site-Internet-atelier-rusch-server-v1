@@ -24,6 +24,7 @@ const mustBeSignIn = (request, response, next) => {
 
 // MIDDLEWARES
 const publicPath = path.join(__dirname, '/client/build')
+console.log(publicPath)
 app.use(express.static(publicPath))
 
 app.use((request, response, next) => {
@@ -299,7 +300,7 @@ app.delete('/partenaires/:id', mustBeSignIn, (req, res, next) => {
     .catch(next)
 })
 
-app.use('/*', (req, res) => {
+app.get('*', (req, res) => {
   console.log('HERE', req.originalUrl)
   res.sendFile(`${publicPath}/index.html`)
 })

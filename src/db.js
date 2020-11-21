@@ -23,7 +23,7 @@ pool
 
 const first = async q => (await q)[0]
 const exec = (query, params) => {
-  console.log('SQL - ', { query, params })
+  // console.log('SQL - ', { query, params })
   return first(pool.execute(query, params))
 }
 
