@@ -23,7 +23,7 @@ const mustBeSignIn = (request, response, next) => {
 }
 
 // MIDDLEWARES
-const publicPath = path.join(__dirname, '/client/build')
+const publicPath = path.join(__dirname, '../../client/build')
 console.log(publicPath)
 app.use(express.static(publicPath))
 
