@@ -93,6 +93,7 @@ app.get('/articles/:id', (req, res, next) => {
 })
 
 app.get('/articles', (request, response, next) => {
+  console.log(publicPath)
   db.getArticles()
     .then((articles) => response.json(articles))
     .catch(next)
