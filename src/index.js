@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 
 const db = require('./db')
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 5010
 
 const app = express()
 
@@ -23,8 +23,13 @@ const mustBeSignIn = (request, response, next) => {
 }
 
 // MIDDLEWARES
-const publicPath = path.join(__dirname, '../../client/build')
-app.use(express.static(publicPath))
+if (process.env.PORT) {
+  const publicPath = path.join(
+    __dirname,
+    '/root/atelier-rusch.com/client/build',
+  )
+  app.use(express.static(publicPath))
+}
 
 app.use((request, response, next) => {
   response.header('Access-Control-Allow-Origin', request.headers.origin)
@@ -301,7 +306,9 @@ app.delete('/partenaires/:id', mustBeSignIn, (req, res, next) => {
 
 app.use('/*', (req, res) => {
   console.log('HERE', req.originalUrl)
-  res.sendFile(`${publicPath}/index.html`)
+  if (process.env.PORT) {
+    res.sendFile(`${publicPath}/index.html`)
+  }
 })
 
 app.listen(port, () => console.log(`Server started on port ${port}!`))
